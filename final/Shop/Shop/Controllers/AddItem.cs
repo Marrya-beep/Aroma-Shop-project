@@ -25,7 +25,8 @@ namespace Shop.Controllers
         public IActionResult NewItem(string categoryName, ShopItem item)
         {
             if (!ModelState.IsValid)
-                return View(item);
+                return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+
 
              var category = _context.Categories.FirstOrDefault(c => c.Name == categoryName);
             if (category == null)
@@ -39,9 +40,9 @@ namespace Shop.Controllers
             _context.ShopItems.Add(item);
             _context.SaveChanges();
 
-            TempData["SuccessMessage"] = "محصول با موفقیت ذخیره شد!";
-            return RedirectToAction("NewItem");
+            return Json(new { success = true, message = "محصول با موفقیت ذخیره شد!", item });
+        }
         }
 
-    }
+    
 }
