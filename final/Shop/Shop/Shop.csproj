@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="MeteorGC.EntityFramework.Extensions.EFCore" Version="1.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.HierarchyId" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
   </ItemGroup>
 
 </Project>
