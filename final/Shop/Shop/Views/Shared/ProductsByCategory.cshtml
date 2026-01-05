@@ -1,0 +1,13 @@
+﻿@model List<Shop.Models.ShopItem>
+
+<h2>محصولات دسته‌بندی @ViewBag.CategoryName</h2>
+<ul>
+    @foreach (var product in Model)
+    {
+        <li>
+            <a asp-controller="ItemDetail" asp-action="ItemDetails" asp-route-id="@product.Id">
+                @product.Name
+            </a>
+        </li>
+    }
+</ul>

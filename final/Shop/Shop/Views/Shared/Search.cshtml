@@ -1,0 +1,27 @@
+﻿@model List<Shop.Models.ShopItem>
+
+<h1>جستجوی محصول</h1>
+
+<form asp-action="Search" method="post">
+    <input type="text" name="query" placeholder="اسم آیتم را وارد کنید" />
+    <button type="submit">Search</button>
+</form>
+
+@if (Model.Any())
+{
+    <h2>نتایج:</h2>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>
+                <strong>@item.Name</strong> - @item.Price تومان
+                <p>@item.Description</p>
+            </li>
+        }
+    </ul>
+}
+else if (!string.IsNullOrWhiteSpace(ViewBag.Query))
+{
+    <p>هیچ محصولی پیدا نشد</p>
+}
+
