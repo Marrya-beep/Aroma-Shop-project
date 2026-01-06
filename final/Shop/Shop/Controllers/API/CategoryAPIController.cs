@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 
-namespace Shop.Controllers
+namespace Shop.Controllers.API
 {
     [ApiController]
     [Route("api/category")]

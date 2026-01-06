@@ -5,7 +5,7 @@ using Shop.Models;
 using Shop.Models.Dtos;
 
 
-namespace Shop.Controllers.Api
+namespace Shop.Controllers.API
 {
     [ApiController]
     [Route("api")]
@@ -24,6 +24,7 @@ namespace Shop.Controllers.Api
                 .Include(x => x.Category)
                 .Select(x => new ShopItemDto
                 {
+                    Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
                     Price = x.Price,

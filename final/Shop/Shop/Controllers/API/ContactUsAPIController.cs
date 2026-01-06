@@ -4,7 +4,7 @@ using Shop.Models;
 using Shop.Models.Dtos;
 
 
-namespace Shop.Controllers
+namespace Shop.Controllers.API
 {
 
     [ApiController]

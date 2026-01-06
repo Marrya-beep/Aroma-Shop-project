@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Shop.Controllers
+namespace Shop.Controllers.API
 {
     [ApiController]
     [Route("api/test")]
