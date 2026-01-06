@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Create Account";
+}
+
+<h2>ایجاد حساب جدید</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div style="color:red">@ViewBag.Error</div>
+}
+@if (ViewBag.Success != null)
+{
+    <div style="color:green">@ViewBag.Success</div>
+}
+
+<form method="post">
+    <div>
+        <label>نام کاربری</label>
+        <input type="text" name="userName" required />
+    </div>
+    <div>
+        <label>ایمیل</label>
+        <input type="email" name="email" required />
+    </div>
+    <div>
+        <label>رمز عبور</label>
+        <input type="password" name="password" required />
+    </div>
+    <button type="submit">ایجاد حساب</button>
+</form>
+
+<p>
+    <a asp-controller="Account" asp-action="Login">بازگشت به ورود</a>
+</p>
