@@ -1,40 +1,48 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
-using Shop.Models;
+using Shop.Services;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace Shop.Controllers
 {
     public class SearchingProduct : Controller
     {
         private readonly ShopDbContext _context;
+        private readonly PermissionService _permissionService;
 
-        public SearchingProduct(ShopDbContext context)
+        public SearchingProduct(ShopDbContext context, PermissionService permissionService)
         {
             _context = context;
+            _permissionService = permissionService;
         }
 
         [HttpGet]
-        public IActionResult Search()
+        public IActionResult Search(string query)
         {
-            return View(new List<ShopItem>());
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null || !_permissionService.UserHasPermission(userId.Value, "Search-Get"))
+                return Unauthorized();
+
+            var results = _context.ShopItems
+                .Where(x => x.Name.Contains(query))
+                .ToList();
+
+            return View(results);
         }
 
         [HttpPost]
-        public IActionResult Search(string query)
+        public IActionResult SearchPost(string query)
         {
-            var results = new List<ShopItem>();
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null || !_permissionService.UserHasPermission(userId.Value, "Search-Post"))
+                return Unauthorized();
 
-            if (!string.IsNullOrWhiteSpace(query))
-            {
-                results = _context.ShopItems
-                    .Where(x => x.Name.Contains(query))
-                    .ToList();
-            }
+            var results = _context.ShopItems
+                .Where(x => x.Name.Contains(query))
+                .ToList();
 
-            ViewBag.Query = query;
-            return View(results);
+            return View("Search", results);
         }
     }
 }
+

@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using Shop.Services
+@inject IHttpContextAccessor HttpContextAccessor
+@inject PermissionService PermissionService
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -8,19 +13,46 @@
 <body>
     <header>
         <nav>
-            <ul style="list-style: none; display: flex; gap: 15px;">
-                <li><a asp-controller="AddItem" asp-action="NewItem">Add New Item</a></li>
-                <li><a asp-controller ="Category" asp-action="Category">Category</a></li>
-                <li><a asp-controller="SearchingProduct" asp-action="Search">Search</a></li>
-                <li><a asp-controller="ContactUs" asp-action="NewMessage">Contact Us</a></li>
-                <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
+            @{
+                var userId = HttpContextAccessor.HttpContext?.Session.GetInt32("UserId");
+            }
+            <ul>
+                @if (userId != null)
+                {
+                    // دسترسی‌ها رو با PermissionService چک کن
+                    if (PermissionService.UserHasPermission(userId.Value, "Add-Get"))
+                    {
+                        <li><a asp-controller="AddItem" asp-action="NewItem">Add New Item</a></li>
+                    }
+                    if (PermissionService.UserHasPermission(userId.Value, "Category-Get"))
+                    {
+                        <li><a asp-controller="Category" asp-action="Category">Category</a></li>
+                    }
+                    if (PermissionService.UserHasPermission(userId.Value, "Search-Get"))
+                    {
+                        <li><a asp-controller="SearchingProduct" asp-action="Search">Search</a></li>
+                    }
+                    if (PermissionService.UserHasPermission(userId.Value, "ContactUS-Post"))
+                    {
+                        <li><a asp-controller="ContactUs" asp-action="NewMessage">Contact Us</a></li>
+                    }
+
+                    <li><a asp-controller="Account" asp-action="Logout">Logout</a></li>
+                }
+                else
+                {
+                    // Not logged in
+                    <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                    <li><a asp-controller="CreateAccount" asp-action="Create">Create Account</a></li>
+                }
             </ul>
         </nav>
     </header>
 
     <main>
-        @RenderBody()
+        @RenderBody()  
     </main>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

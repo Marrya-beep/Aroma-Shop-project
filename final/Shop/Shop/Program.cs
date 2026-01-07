@@ -29,7 +29,15 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
-
+builder.Services.AddScoped<Shop.Services.PermissionService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache(); 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.HttpOnly = true;                  
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -51,6 +59,7 @@ app.UseRouting();
 
 
 app.UseCors("AllowFrontend");
+app.UseSession();
 
 app.UseAuthorization();
 
