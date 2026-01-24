@@ -24,6 +24,7 @@ namespace Shop.Controllers.API
                 {
                     u.Id,
                     u.UserName,
+                    u.Password,
                     u.Email,
                     u.FkRole,
                     u.IsActive,
